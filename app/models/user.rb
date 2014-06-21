@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   devise :omniauthable, :rememberable, :trackable, :omniauth_providers => [:coinbase]
   serialize :credentials
 
+  validates :uid, presence: true
+
   def self.find_for_oauth(auth)
     where(auth.slice(:provider, :uid)).first_or_create do |user|
       user.provider = auth.provider
