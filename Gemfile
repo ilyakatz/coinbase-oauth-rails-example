@@ -36,7 +36,7 @@ gem 'figaro'
 
 gem 'coinbase', '~> 2.0'
 
-gem 'omniauth-coinbase'
+gem 'omniauth-coinbase', '~> 1.0'
 
 gem 'devise'
 
