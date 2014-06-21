@@ -30,13 +30,14 @@ Here we configure the omniauth provider with the app credentials and the permiss
 
 ### Handling the omniauth callback
 
+First we tell devise which controller to use to handle the omniauth callbacks
+
 In config/routes.rb
 ```ruby
 devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 ```
 
-First we tell devise which controller to use to handle the omniauth callbacks
-
+Then we define a method with the same name as the provider ('coinbase'), look up or create a new user based on his uid, and sign him in.
 
 In app/controllers/users/omniauth_callbacks_controller.rb: 
 ```ruby
@@ -63,8 +64,6 @@ def self.find_for_oauth(auth)
   end
 end
 ```
-
-Then we define a method with the same name as the provider ('coinbase'), look up or create a new user based on his uid, and sign him in.
 
 ### Accessing the user's account
 
