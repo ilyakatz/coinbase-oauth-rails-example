@@ -6,8 +6,12 @@ An example rails app that demonstrates accessing user's coinbase accounts using 
 
 ```bash
 bundle install
-export COINBASE_CLIENT_ID=your_coinbase_app_client_id
-export COINBASE_CLIENT_SECRET=your_coinbase_app_client_secret
+cp config/application.yml.example config/application.yml
+```
+
+Update `config/appplication.yml` with your client id and client secret
+
+```bash
 rake db:reset
 rails server
 ```
@@ -23,7 +27,7 @@ You will be redirected to Coinbase and asked for access to your basic account in
 In config/initializers/devise.rb:
 
 ```ruby
-config.omniauth :coinbase, ENV["COINBASE_CLIENT_ID"], ENV["COINBASE_CLIENT_SECRET"], scope: 'user balance'
+config.omniauth :coinbase, ... scope: 'user balance'
 ```
 
 Here we configure the omniauth provider with the app credentials and the permissions we want to request our users to grant. The default is 'all' and it's mandatory to have at least one of 'all' and 'user'. A full list can be seen [here](https://coinbase.com/docs/api/permissions).
