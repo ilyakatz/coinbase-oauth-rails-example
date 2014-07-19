@@ -4,19 +4,44 @@ An example rails app that demonstrates accessing user's coinbase accounts using 
 
 ## Usage
 
+### Register an OAuth application
+
+* Register a new application in [Coinbase](https://coinbase.com/oauth/applications)
+* Redirect uri should be in the form [protocol]://[host]:[port]/users/auth/coinbase/callback
+  * In development, for this example, the URI is http://localhost:3000/users/auth/coinbase/callback
+
+### Put application keys in environment variables
+
+#### Manually
+
 ```bash
-bundle install
 export COINBASE_CLIENT_ID=your_coinbase_app_client_id
 export COINBASE_CLIENT_SECRET=your_coinbase_app_client_secret
+```
+
+#### Using figaro
+
+```bash
+touch config/application.yml
+echo "COINBASE_CLIENT_ID: your_coinbase_client_id" >> config/application.yml
+echo "COINBASE_CLIENT_SECRET: your_coinbase_app_client_secret" >> config/application.yml
+```
+
+NOTE: Do not check this file into version control!
+
+### Run the server
+
+```bash
+bundle install
 rake db:reset
 rails server
 ```
 
-Then navigate to the root path (default would be 'https://localhost:3000/')
+Then navigate to the root path (default would be 'http://localhost:3000/')
 
 You will be redirected to Coinbase and asked for access to your basic account information and balance. Upon approving the access, you will be redirected back to the root path where you will be shown your balance.
 
-## Highlights
+## Code Highlights
 
 ### Configuring the omniauth provider
 
@@ -39,7 +64,7 @@ devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_call
 
 Then we define a method with the same name as the provider ('coinbase'), look up or create a new user based on his uid, and sign him in.
 
-In app/controllers/users/omniauth_callbacks_controller.rb: 
+In app/controllers/users/omniauth_callbacks_controller.rb:
 ```ruby
 def coinbase
 	@user = User.find_for_oauth(request.env["omniauth.auth"])
@@ -53,7 +78,7 @@ def coinbase
 end
 ```
 
-In app/models/user.rb 
+In app/models/user.rb
 ```ruby
 def self.find_for_oauth(auth)
   where(auth.slice(:provider, :uid)).first_or_create do |user|
