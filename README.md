@@ -12,11 +12,17 @@ rake db:reset
 rails server
 ```
 
-Then navigate to the root path (default would be 'https://localhost:3000/')
+Then navigate to the root path (default would be 'http://localhost:3000/')
 
 You will be redirected to Coinbase and asked for access to your basic account information and balance. Upon approving the access, you will be redirected back to the root path where you will be shown your balance.
 
 ## Highlights
+
+### Setting up OAuth2
+
+* Register a new application in [Coinbase](https://coinbase.com/oauth/applications)
+* Redirect uri should be in the form [protocol]://[host]:[port]/users/auth/coinbase/callback
+  * In development, for this example, the URI is http://localhost:3000/users/auth/coinbase/callback
 
 ### Configuring the omniauth provider
 
