@@ -93,16 +93,12 @@ end
 In order to handle Coinbase session timeout in a graceful manner, add the following to `ApplicationController`
 
 ```ruby
-
   rescue_from OAuth2::Error do |exception|
-
     if exception.code == "invalid_request"
       sign_out(:user)
       authenticate_user!
     end
-
   end
-
 ```
 
 ### Accessing the user's account
